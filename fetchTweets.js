@@ -1,5 +1,6 @@
 const Twitter = require('twitter');
 const config = require('./config/keyConfig');
+const tweetAnalyzer = require('./tweetAnalyzer.js');
 const fs = require('fs');
 
 var client = new Twitter({
@@ -10,12 +11,11 @@ var client = new Twitter({
 });
 
 var requestScanning = [
-    { user: "ohackathon2018",  userID: 123, sinceID: 1 }
+    { user: "ohackathon2018",  userID: 123 }
 ]; //contains a users request for twitter profile to scan
 
 
 setInterval(() => {
-    console.log("Fetching tweets.");
     requestScanning.forEach(req => {
         var params = {
             screen_name: req.user,
@@ -28,22 +28,25 @@ setInterval(() => {
                 console.log(error);
                 return "error";
             }
-            var messagesToSend = [];
+
+            var fetchedTweets = [];
 
             tweets.forEach(tweet => {
-                //console.log(tweet.text);
-                messagesToSend.push(tweet.text);
+                fetchedTweets.push({
+                    text: tweet.text,
+                    location: tweet.geo.coordinates
+                });
             });
 
-            req.sinceID = tweets.length > 0 ? tweets[0].id : req.sinceID; //only update sinceID if tweets are found
-            fs.writeFile('./data/tweets.json', JSON.stringify(messagesToSend), (err) => {
-                if (err) {
-                    console.log("error writing file.");
-                }
-            });
+            //req.sinceID = tweets.length > 0 ? tweets[0].id : req.sinceID; //only update sinceID if tweets are found
+            fs.writeFileSync('./data/tweets.json', JSON.stringify(fetchedTweets));
+            console.log("Fetched and wrote tweet data to file.");
+            
+            tweetAnalyzer.getSetiments(tweetAnalyzer.getTweetData());
+
 
         });
         // console.log("sinceID::" + params.since_id);
     });
 
-}, 10000);
+}, 5 * 1000);
