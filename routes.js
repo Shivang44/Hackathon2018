@@ -4,9 +4,13 @@ const fs = require('fs');
 const routes = [{
     method: 'GET',
     path: '/',
-    handler: (request, h) => {
+    handler: async (request, h) => {
         var data = JSON.parse(fs.readFileSync("./data/tweets.json"));
-        return data; 
+        test = {
+            test: '123'
+        }
+        return h.view('index', test); 
+
     }
 }];
 
