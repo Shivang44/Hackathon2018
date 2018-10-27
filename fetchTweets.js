@@ -32,6 +32,7 @@ setInterval(() => {
             var fetchedTweets = [];
 
             tweets.forEach(tweet => {
+                console.log(tweet);
                 fetchedTweets.push({
                     text: tweet.text,
                     location: 'LOCATION (figure out how to get from twitter)'

@@ -12,6 +12,16 @@ const server = Hapi.server({
 server.route(routes);
 
 const init = async () => {
+    await server.register(require('vision'));
+
+    server.views({
+        engines: {
+            html: require('handlebars')
+        },
+        relativeTo: __dirname,
+        path: 'templates'
+    });
+
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
