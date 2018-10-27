@@ -29,6 +29,7 @@ let response_handler = function (response) {
     });
     response.on ('end', function () {
         let body_ = JSON.parse (body);
+        console.log("Body, ", body);
 
         // Add tweet text and location to sentiment analysis
         const tweets = JSON.parse(fs.readFileSync('./data/tweets.json'));

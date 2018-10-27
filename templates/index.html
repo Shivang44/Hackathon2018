@@ -29,32 +29,48 @@
       function initMap() {
         var columbus = {lat: 39.9612, lng: -82.9988};
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
+          zoom: 11,
           center: columbus
         });
 
-        $.get('http://localhost:3000/markers')
-        .done((data) => {
-            data.documents.forEach((tweet) => {
-                console.log(tweet);
-                if (tweet.score < 0.5) {
+        var pinsMapped = {};
 
-                    var infowindow = new google.maps.InfoWindow({
-                        content: tweet.text
-                    });
+        setInterval(() => {
+            $.get({url: 'http://localhost:3000/markers', cache: false})
+            .done((data) => {
+                console.log("Fetched data: ", data);
+                data.documents.forEach((tweet) => {
+                    if (!pinsMapped.hasOwnProperty(tweet.id)) {
 
-                    var marker = new google.maps.Marker({
-                        position: {lat: tweet.location[0], lng: tweet.location[1]},
-                        map: map,
-                        title: 'Tweet with low sentiment value'
-                    });
+                        if (tweet.score < 0.5) {
 
-                    marker.addListener('click', function() {
-                        infowindow.open(map, marker);
-                    });
-                }
+                            var infowindow = new google.maps.InfoWindow({
+                                content: tweet.text
+                            });
+
+                            var marker = new google.maps.Marker({
+                                position: {lat: tweet.location[0], lng: tweet.location[1]},
+                                map: map,
+                                title: 'Tweet with low sentiment value'
+                            });
+
+                            marker.addListener('click', function() {
+                                infowindow.open(map, marker);
+                            });
+
+                            console.log("New marker added!", tweet);
+                        }
+                    }
+
+                    pinsMapped[tweet.id] = true;
+
+                });
             });
-        });
+
+        }, 500);
+
+
+        
 
 
       }
