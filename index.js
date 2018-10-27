@@ -1,5 +1,5 @@
 const Hapi = require('hapi');
-const _= require('underscore');
+const fs = require('fs'); 
 
 const server = Hapi.server({
     port: 3000,
@@ -35,24 +35,23 @@ requestScanning.forEach(req => {
             return "error";
         }
         tweets.forEach(tweet => {
-            console.log(tweet.text);
+            //console.log(tweet.text);
             messagesToSend.push(tweet.text);
         });
 
         req.sinceID = tweets.length > 0 ? tweets[0].id : req.sinceID; //only update sinceID if tweets are found
+        fs.writeFile('tweets.json', JSON.stringify(messagesToSend), (err) => {
+            if (err) {
+                console.log("error writing file.");
+            }
+        });
+
     });
     // console.log("sinceID::" + params.since_id);
 });
 
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: (request, h) => {
-
-        return messagesToSend;
-    }
-});
+server.route(require('./routes.js'));
 
 const init = async () => {
 
@@ -67,3 +66,5 @@ process.on('unhandledRejection', (err) => {
 });
 
 init();
+
+module.exports = {"hi": 5};
