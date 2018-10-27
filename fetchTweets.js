@@ -52,9 +52,6 @@ setInterval(() => {
                 }
             });
 
-            fs.writeFileSync('./data/tweets.json', JSON.stringify(fetchedTweets));
-            console.log("Fetched and wrote tweet data to file.");
-
         });
         // console.log("sinceID::" + params.since_id);
     });

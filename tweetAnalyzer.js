@@ -48,7 +48,6 @@ let response_handler = function (response) {
             let body__ = JSON.stringify (body_, null, '  ');
             fs.writeFileSync('./data/sentimentAnalysis.json', body__);
         }
-       
         if(prevAnalysis!==undefined){
             body_.documents.forEach((val)=>{
                 prevAnalysis.documents.push(val);
@@ -84,6 +83,7 @@ const getTweetData = function() {
     const tweets = JSON.parse(fs.readFileSync('./data/tweets.json'));
     let documents = {'documents': []};
 
+    var counter=0;
     tweets.forEach((tweet, index) => {
         if(tweet.hasBeenAnalyzed == undefined || !tweet.hasBeenAnalyzed){
             documents['documents'].push({
@@ -91,9 +91,10 @@ const getTweetData = function() {
                 'language': 'en',
                 'text': tweet.text
             });
+            counter++;
         }
     });
-
+    console.log(counter+" tweets analyzed");
     return documents;
 }
 
