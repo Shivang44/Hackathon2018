@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Shivang44/Hackathon2018#readme",
   "dependencies": {
     "hapi": "^17.6.0",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
+    "underscore": "^1.9.1"
   }
 }
