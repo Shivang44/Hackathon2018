@@ -1,5 +1,6 @@
 const Twitter = require('twitter');
 const config = require('./config/keyConfig');
+const tweetAnalyzer = require('./tweetAnalyzer.js');
 const fs = require('fs');
 
 var client = new Twitter({
@@ -15,7 +16,6 @@ var requestScanning = [
 
 
 setInterval(() => {
-    console.log("Fetching tweets.");
     requestScanning.forEach(req => {
         var params = {
             screen_name: req.user,
@@ -32,19 +32,18 @@ setInterval(() => {
             var fetchedTweets = [];
 
             tweets.forEach(tweet => {
-                console.log(tweet);
                 fetchedTweets.push({
                     text: tweet.text,
-                    location: 'LOCATION (figure out how to get from twitter)'
+                    location: tweet.geo.coordinates
                 });
             });
 
             //req.sinceID = tweets.length > 0 ? tweets[0].id : req.sinceID; //only update sinceID if tweets are found
-            fs.writeFile('./data/tweets.json', JSON.stringify(fetchedTweets), (err) => {
-                if (err) {
-                    console.log("error writing file.");
-                }
-            });
+            fs.writeFileSync('./data/tweets.json', JSON.stringify(fetchedTweets));
+            console.log("Fetched and wrote tweet data to file.");
+            
+            tweetAnalyzer.getSetiments(tweetAnalyzer.getTweetData());
+
 
         });
         // console.log("sinceID::" + params.since_id);

@@ -2,6 +2,7 @@ const Hapi = require('hapi');
 const fs = require('fs'); 
 const routes = require('./routes.js');
 const tweetFetcher = require('./fetchTweets.js');
+//const tweetAnalyzer = require('./tweetAnalyzer.js');
 
 const server = Hapi.server({
     port: 3000,

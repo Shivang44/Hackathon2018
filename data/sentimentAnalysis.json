@@ -2,33 +2,48 @@
   "documents": [
     {
       "id": "0",
-      "score": 0.12725889682769775,
-      "text": "Work hard, play hard!",
-      "location": "LOCATION (figure out how to get from twitter)"
+      "score": 0.15701451897621155,
+      "text": "Hurricane in Ohio! I'm going to possibly die!",
+      "location": [
+        40.08866923,
+        -83.01644474
+      ]
     },
     {
       "id": "1",
-      "score": 0.815899670124054,
-      "text": "Figuring out this coding thing! 💪",
-      "location": "LOCATION (figure out how to get from twitter)"
+      "score": 0.019669800996780396,
+      "text": "Oh no! Tornado! I'm going to die!",
+      "location": [
+        40.01764145,
+        -82.87566421
+      ]
     },
     {
       "id": "2",
-      "score": 0.9603195190429688,
-      "text": "Everyone looks so focused, keep up the good work👏",
-      "location": "LOCATION (figure out how to get from twitter)"
+      "score": 0.013790518045425415,
+      "text": "Ag campus sucks!",
+      "location": [
+        40.00535781,
+        -83.04656886
+      ]
     },
     {
       "id": "3",
-      "score": 0.9942060708999634,
-      "text": "One hour in! 23 to go😎",
-      "location": "LOCATION (figure out how to get from twitter)"
+      "score": 0.7526739239692688,
+      "text": "Sup",
+      "location": [
+        39.96650958,
+        -82.99322199
+      ]
     },
     {
       "id": "4",
-      "score": 0.9248326420783997,
-      "text": "Chilling at the Union, having so much fun! #coding #hackathon #hackohio",
-      "location": "LOCATION (figure out how to get from twitter)"
+      "score": 0.821366548538208,
+      "text": "Make dollars don't make sense",
+      "location": [
+        39.99771934,
+        -83.00864426
+      ]
     }
   ],
   "errors": []
