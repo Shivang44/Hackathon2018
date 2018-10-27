@@ -35,7 +35,11 @@ requestScanning.forEach(req => {
             return "error";
         }
         tweets.forEach(tweet => {
-            console.log(tweet.text);
+            if(tweet.place!=undefined){
+                console.log(tweet.text);
+                console.log(tweet.place);
+                console.log(tweet.place.bounding_box.coordinates);
+            }
             messagesToSend.push(tweet.text);
         });
 
