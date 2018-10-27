@@ -7,14 +7,6 @@ const server = Hapi.server({
     host: 'localhost'
 });
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: (request, h) => {
-
-        return 'Hello, world!';
-    }
-});
 
 const Twitter = require('twitter');
 const config = require('./config/keyConfig');
@@ -30,31 +22,43 @@ var requestScanning = [
 ]; //contains a users request for twitter profile to scan
 
 
-setInterval(() => {
 
-    requestScanning.forEach(req => {
-        var params = {
-            screen_name: req.user,
-            count: 50,
-            since_id: req.sinceID
-        };
 
-        let messagesToSend = []
+server.route({
+    method: 'GET',
+    path: '/',
+    handler: (request, h) => {
 
-        client.get('statuses/user_timeline', params, function (error, tweets, response) {
-            if (error) {
-                console.log(error);
-                return;
-            }
+        
+        requestScanning.forEach(req => {
+            var params = {
+                screen_name: req.user,
+                count: 50,
+                since_id: req.sinceID
+            };
 
-            tweets.forEach(tweet => {
-                console.log(tweet.text);
+            let messagesToSend = []
+
+            client.get('statuses/user_timeline', params, function (error, tweets, response) {
+                if (error) {
+                    console.log(error);
+                    return "error";
+                }
+
+                return tweets;
+
+                tweets.forEach(tweet => {
+                    console.log(tweet.text);
+                });
+
+                req.sinceID = tweets.length > 0 ? tweets[0].id : req.sinceID; //only update sinceID if tweets are found
             });
-            req.sinceID = tweets.length > 0 ? tweets[0].id : req.sinceID; //only update sinceID if tweets are found
+            // console.log("sinceID::" + params.since_id);
         });
-        // console.log("sinceID::" + params.since_id);
-    });
-}, 10000);
+
+        return 'Hello, world!';
+    }
+});
 
 
 const init = async () => {
