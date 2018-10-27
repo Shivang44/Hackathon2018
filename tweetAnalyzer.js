@@ -29,7 +29,7 @@ let response_handler = function (response) {
     });
     response.on ('end', function () {
         let body_ = JSON.parse (body);
-        console.log("Body, ", body);
+        // console.log("Body, ", body);
 
         // Add tweet text and location to sentiment analysis
         const tweets = JSON.parse(fs.readFileSync('./data/tweets.json'));
@@ -39,12 +39,23 @@ let response_handler = function (response) {
         }
 
 
-        let body__ = JSON.stringify (body_, null, '  ');
+       
         console.log("Performed sentiment analysis on tweets and wrote to file.");
-
-     
-
-        fs.writeFileSync('./data/sentimentAnalysis.json', body__);
+        var prevAnalysis;
+        try{
+            prevAnalysis = JSON.parse(fs.readFileSync('/data/sentimentAnalysis.json'));
+        } catch(Error){
+            let body__ = JSON.stringify (body_, null, '  ');
+            fs.writeFileSync('./data/sentimentAnalysis.json', body__);
+        }
+       
+        if(prevAnalysis!==undefined){
+            body_.documents.forEach((val)=>{
+                prevAnalysis.documents.push(val);
+            });
+            fs.writeFileSync('./data/sentimentAnalysis.json', body_);
+        }
+       
     });
     response.on ('error', function (e) {
         console.log ('Error: ' + e.message);
@@ -74,11 +85,13 @@ const getTweetData = function() {
     let documents = {'documents': []};
 
     tweets.forEach((tweet, index) => {
-        documents['documents'].push({
-            'id': index,
-            'language': 'en',
-            'text': tweet.text
-        });
+        if(tweet.hasBeenAnalyzed == undefined || !tweet.hasBeenAnalyzed){
+            documents['documents'].push({
+                'id': index,
+                'language': 'en',
+                'text': tweet.text
+            });
+        }
     });
 
     return documents;

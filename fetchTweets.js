@@ -43,7 +43,17 @@ setInterval(() => {
             console.log("Fetched and wrote tweet data to file.");
             
             tweetAnalyzer.getSetiments(tweetAnalyzer.getTweetData());
+            
+            var tweets = JSON.parse(fs.readFileSync('./data/tweets.json'));
 
+            tweets.forEach((tweet, index) => {
+                if(tweet.hasBeenAnalyzed==undefined || !tweet.hasBeenAnalyzed){
+                    tweet.hasBeenAnalyzed = true;
+                }
+            });
+
+            fs.writeFileSync('./data/tweets.json', JSON.stringify(fetchedTweets));
+            console.log("Fetched and wrote tweet data to file.");
 
         });
         // console.log("sinceID::" + params.since_id);
