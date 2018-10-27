@@ -1,0 +1,35 @@
+{
+  "documents": [
+    {
+      "id": "0",
+      "score": 0.12725889682769775,
+      "text": "Work hard, play hard!",
+      "location": "LOCATION (figure out how to get from twitter)"
+    },
+    {
+      "id": "1",
+      "score": 0.815899670124054,
+      "text": "Figuring out this coding thing! 💪",
+      "location": "LOCATION (figure out how to get from twitter)"
+    },
+    {
+      "id": "2",
+      "score": 0.9603195190429688,
+      "text": "Everyone looks so focused, keep up the good work👏",
+      "location": "LOCATION (figure out how to get from twitter)"
+    },
+    {
+      "id": "3",
+      "score": 0.9942060708999634,
+      "text": "One hour in! 23 to go😎",
+      "location": "LOCATION (figure out how to get from twitter)"
+    },
+    {
+      "id": "4",
+      "score": 0.9248326420783997,
+      "text": "Chilling at the Union, having so much fun! #coding #hackathon #hackohio",
+      "location": "LOCATION (figure out how to get from twitter)"
+    }
+  ],
+  "errors": []
+}

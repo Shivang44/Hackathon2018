@@ -10,7 +10,7 @@ var client = new Twitter({
 });
 
 var requestScanning = [
-    { user: "ohackathon2018",  userID: 123, sinceID: 1 }
+    { user: "ohackathon2018",  userID: 123 }
 ]; //contains a users request for twitter profile to scan
 
 
@@ -28,15 +28,18 @@ setInterval(() => {
                 console.log(error);
                 return "error";
             }
-            var messagesToSend = [];
+
+            var fetchedTweets = [];
 
             tweets.forEach(tweet => {
-                //console.log(tweet.text);
-                messagesToSend.push(tweet.text);
+                fetchedTweets.push({
+                    text: tweet.text,
+                    location: 'LOCATION (figure out how to get from twitter)'
+                });
             });
 
-            req.sinceID = tweets.length > 0 ? tweets[0].id : req.sinceID; //only update sinceID if tweets are found
-            fs.writeFile('./data/tweets.json', JSON.stringify(messagesToSend), (err) => {
+            //req.sinceID = tweets.length > 0 ? tweets[0].id : req.sinceID; //only update sinceID if tweets are found
+            fs.writeFile('./data/tweets.json', JSON.stringify(fetchedTweets), (err) => {
                 if (err) {
                     console.log("error writing file.");
                 }
@@ -46,4 +49,4 @@ setInterval(() => {
         // console.log("sinceID::" + params.since_id);
     });
 
-}, 10000);
+}, 5 * 1000);
