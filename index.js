@@ -9,6 +9,12 @@ const server = Hapi.server({
     host: 'localhost'
 });
 
+// Delete if files exist
+try {
+    fs.unlinkSync('./data/tweets.json');
+    fs.unlinkSync('./data/sentimentAnalysis.json');
+} catch (Error) {}
+
 
 server.route(routes);
 

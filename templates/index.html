@@ -37,9 +37,12 @@
 
         setInterval(() => {
             $.get({url: 'http://localhost:3000/markers', cache: false})
+
             .done((data) => {
+
                 console.log("Fetched data: ", data);
                 data.documents.forEach((tweet) => {
+                    
                     if (!pinsMapped.hasOwnProperty(tweet.id)) {
 
                         if (tweet.score < 0.5) {

@@ -29,7 +29,6 @@ let response_handler = function (response) {
     });
     response.on ('end', function () {
         let body_ = JSON.parse (body);
-        // console.log("Body, ", body);
 
         // Add tweet text and location to sentiment analysis
         const tweets = JSON.parse(fs.readFileSync('./data/tweets.json'));
@@ -38,9 +37,6 @@ let response_handler = function (response) {
             body_.documents[i]['location'] = tweets[i].location;
         }
 
-
-       
-        console.log("Performed sentiment analysis on tweets and wrote to file.");
         var prevAnalysis;
         try{
             prevAnalysis = JSON.parse(fs.readFileSync('/data/sentimentAnalysis.json'));
@@ -83,6 +79,7 @@ const getTweetData = function() {
     const tweets = JSON.parse(fs.readFileSync('./data/tweets.json'));
     let documents = {'documents': []};
 
+    console.log(tweets);
     var counter=0;
     tweets.forEach((tweet, index) => {
         if(tweet.hasBeenAnalyzed == undefined || !tweet.hasBeenAnalyzed){
@@ -94,6 +91,7 @@ const getTweetData = function() {
             counter++;
         }
     });
+
     console.log(counter+" tweets analyzed");
     return documents;
 }
