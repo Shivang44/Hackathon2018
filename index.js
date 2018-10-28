@@ -6,7 +6,7 @@ const tweetFetcher = require('./fetchTweets.js');
 
 const server = Hapi.server({
     port: process.env.PORT || 3000,
-    host: 'localhost'
+    host: '0.0.0.0'
 });
 
 // Delete if files exist
