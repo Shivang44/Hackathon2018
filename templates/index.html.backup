@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Info Windows</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+     
+      function initMap() {
+
+
+
+
+
+
+
+      var icons = {
+              accident: {
+                name: 'Accident',
+                icon: {
+                  url: "https://i.imgur.com/Ct9SbMm.png", // url
+                  scaledSize: new google.maps.Size(50, 65), // scaled size
+                  origin: new google.maps.Point(0,0), // origin
+                  anchor: new google.maps.Point(0, 0), // anchor
+                },
+                keyPhrases: "accident,hit and run,crash,crashed,burn,burnt,burned,fender bender,fire,explode,exploded,explosion".split(",")
+              },
+              crime: {
+                name: 'Crime',
+                icon: {
+                  url: "https://i.imgur.com/lWr6NlI.png", // url
+                  scaledSize: new google.maps.Size(50, 50), // scaled size
+                  origin: new google.maps.Point(0,0), // origin
+                  anchor: new google.maps.Point(0, 0), // anchor
+                },
+                keyPhrases: "shoot,shot,shots fired,shooter,shooting,stab,stabbed,stabber,stabbing,shank,shanked, assaulted,maimed,bludgeoned,raped,rapist,raping,rape,armed,knife,gun,rifle,taser,hurt, hurting,injure,injured,injury,rob,robbed,robber,robbing,burglar,burglary,jumped,mugged,mugging,mugger,kidnap,kidnapper,kidnapping,kidnapped,theft,steal,stole,stolen,strangle,strangled,strangling,beaten,impale,impaled".split(",")
+
+
+              },
+              natural_disaster: {
+                name: 'Natural Disaster',
+                icon: {
+                  url: "https://i.imgur.com/KTORyPZ.png", // url
+                  scaledSize: new google.maps.Size(50, 50), // scaled size
+                  origin: new google.maps.Point(0,0), // origindie
+                  anchor: new google.maps.Point(0, 0), // anchor
+
+                },
+                keyPhrases: "tornado,hurricane,monsoon,tsunami,earthquake,flood,hail,blizzard,storm,volcano,avalanche,twister,heat wave,cyclone,thunder,lightning,sinkhole,rain,power outage".split(",")
+              }
+            };
+
+            function getIcon(words, icons) {
+              // For each icon possibility
+
+              for (var icon in icons) {
+
+                // For each word in tweet text
+                
+                for (var i = 0; i < words.length; i++) {
+                  word = words[i].replace(/\s+/g, '-').replace(/[^a-zA-Z-]/g, '').toLowerCase();
+                  
+                  var keyPhrases = icons[icon].keyPhrases;
+                  for (var j = 0; j < keyPhrases.length; j++) {
+                    if (keyPhrases[j] == word) {
+                      console.log(keyPhrases[j], word, icons[icon].icon);
+                      return icons[icon].icon;
+                    }
+
+                  }
+                  
+                }
+
+              }
+
+
+              return null;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        var columbus = {lat: 39.9612, lng: -82.9988};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 11,
+          center: columbus
+        });
+
+        var pinsMapped = {};
+
+        setInterval(() => {
+            $.get({url: 'http://localhost:3000/markers', cache: false})
+
+            .done((data) => {
+
+                data.documents.forEach((tweet) => {
+
+                    if (!pinsMapped.hasOwnProperty(tweet.id)) {
+
+                        if (tweet.score <= 0.5 && tweet.location != null) {
+
+
+                            var icon = getIcon(tweet.text.split(" "), icons);
+
+                            var newSize;
+                            if (tweet.score <= 0.05) {
+                              newSize = 100;
+                            } else if (tweet.score < 0.1) {
+                              newSize = 90;
+                            } else if (tweet.score < 0.20) {
+                              newSize = 80;
+
+
+
+                              // Let's check if the browser supports notifications
+                              if (!("Notification" in window)) {
+                                alert("This browser does not support desktop notification");
+                              }
+
+                              // Let's check whether notification permissions have already been granted
+                              else if (Notification.permission === "granted") {
+                                // If it's okay let's create a notification
+                                var notification = new Notification("URGENT: " + tweet.text);
+                              }
+
+                              // Otherwise, we need to ask the user for permission
+                              else if (Notification.permission !== "denied") {
+                                Notification.requestPermission().then(function (permission) {
+                                  // If the user accepts, let's create a notification
+                                  if (permission === "granted") {
+                                    var notification = new Notification("URGENT: " + tweet.text);
+                                  }
+                                });
+                              }
+
+
+                            } else if (tweet.score < 0.25) {
+                              newSize = 70;
+                            } else if (tweet.score < 0.30) {
+                              newSize = 60;
+                            } else if (tweet.score < 0.35) {
+                              newSize = 50;
+                            } else if (tweet.score < 0.40) {
+                              newSize = 40;
+                            } else if (tweet.score < 0.45) {
+                              newSize = 30;
+                            } else {
+                              newSize = 20;
+                            }
+
+
+                            if (icon != null) {
+                              icon.scaledSize = new google.maps.Size(newSize, newSize);
+                              console.log(icon);
+
+                                var infowindow = new google.maps.InfoWindow({
+                                  content: "<p style='font-size:20px;'><b>" + tweet.text + "</b>" + "<br />Sentiment value: " + tweet.score.toFixed(4) + "</p>"
+                              });
+
+                              var marker = new google.maps.Marker({
+                                  position: {lat: tweet.location[0], lng: tweet.location[1]},
+                                  map: map,
+                                  title: 'Tweet with low sentiment value',
+                                  icon: icon,
+
+                              });
+
+                              marker.addListener('click', function() {
+                                  infowindow.open(map, marker);
+                              });
+                            }
+
+                            
+
+                        }
+                    }
+
+                    pinsMapped[tweet.id] = true;
+
+                });
+            });
+
+        }, 500);
+
+
+        
+
+
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4Z_8VpRMJV_xHIU-amRgM-onqR2AatAY&callback=initMap">
+    </script>
+    <script>
+        
+    </script>
+  </body>
+</html>

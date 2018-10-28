@@ -16,10 +16,13 @@ try {
 } catch (Error) {}
 
 
-server.route(routes);
 
 const init = async () => {
     await server.register(require('vision'));
+    await server.register(require('inert'));
+
+
+
 
     server.views({
         engines: {
@@ -29,6 +32,7 @@ const init = async () => {
         path: 'templates'
     });
 
+    server.route(routes);
 
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);

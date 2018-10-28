@@ -1,26 +1,215 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
 <html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Info Windows</title>
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map"></div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<head>
+		<title>Hyperspace by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/public/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="/public/assets/css/noscript.css" /></noscript>
+		<style>
+		#map {
+			height: 100%;
+      	}
+	</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Sidebar -->
+			<section id="sidebar">
+				<div class="inner">
+					<nav>
+						<ul>
+							<li><a href="#intro">Welcome</a></li>
+							<li><a href="#one">Use Cases</a></li>
+							<li><a href="#two">Features</a></li>
+							<li><a href="#three">Get in touch</a></li>
+						</ul>
+					</nav>
+				</div>
+			</section>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Intro -->
+					<section id="intro" class="wrapper style1 fullscreen fade-up">
+						<div class="inner" style="padding-top: 5px">
+							<h1 style="text-align: center; font-size: 1.5em;">Real-time emergency map of nearby low sentiment tweets</h1>
+							<div id="map" style="width:100%; height: 750px; margin-left: auto; margin-right:auto;"></div>
+
+							<!--<p>Just another fine responsive site template designed by <a href="http://html5up.net">HTML5 UP</a><br />
+							and released for free under the <a href="http://html5up.net/license">Creative Commons</a>.</p>
+							-->
+						</div>
+					</section>
+
+				<!-- One -->
+					<section id="one" class="wrapper style2 spotlights">
+						<section>
+							<a href="#" class="image"><img src="https://i.imgur.com/9ttvmtp.jpg" alt="" data-position="center center" /></a>
+							<div class="content">
+								<div class="inner">
+									<h2>Track real-time information about natural disasters</h2>
+									<p>Natural disasters will be detected by a low sentiment score and keyword feature extraction, and populated on the map.</p>
+								</div>
+							</div>
+						</section>
+						<section>
+							<a href="#" class="image"><img src="https://i.imgur.com/HQHymJ8.jpg" alt="" data-position="top center" /></a>
+							<div class="content">
+								<div class="inner">
+									<h2>Plan around highway accidents</h2>
+									<p>Aggregrate information about accidents is collected, analyzed, and plotted on the map.</p>
+								</div>
+							</div>
+						</section>
+						<section>
+							<a href="#" class="image"><img src="https://i.imgur.com/mvQ4O1K.jpg" alt="" data-position="25% 25%" /></a>
+							<div class="content">
+								<div class="inner">
+									<h2>Be alerted to nearby crimes</h2>
+									<p>Increase personal safety by avoiding nearby crimes.</p>
+								</div>
+							</div>
+						</section>
+					</section>
+
+				<!-- Two -->
+					<section id="two" class="wrapper style3 fade-up">
+						<div class="inner">
+							<h2>Features</h2>
+							<!--<p>Phasellus convallis elit id ullamcorper pulvinar. Duis aliquam turpis mauris, eu ultricies erat malesuada quis. Aliquam dapibus, lacus eget hendrerit bibendum, urna est aliquam sem, sit amet imperdiet est velit quis lorem.</p>
+							-->
+								<div class="features">
+								<section>
+									<span class="icon major fa-code"></span>
+									<h3>Sentiment analysis</h3>
+									<p>By using Microsoft Azure Cognitive Services API, we are able to determine the severity of tweets by analyzing their sentiment score.</p>
+								</section>
+								<section>
+									<span class="icon major fa-lock"></span>
+									<h3>Keyword phrase extraction</h3>
+									<p>We are able to identify key words in a tweet to determine it's overall meaning	.</p>
+								</section>
+								<section>
+									<span class="icon major fa-cog"></span>
+									<h3>Emergency categorization</h3>
+									<p>We then match tweets based on their keywords to specific emergency cateogires, like natural disasters, accidents, and crimes.</p>
+								</section>
+								<section>
+									<span class="icon major fa-desktop"></span>
+									<h3>Severity indication</h3>
+									<p>Based on the severity of a tweet, we scale the map pin accordingly.</p>
+								</section>
+								<section>
+									<span class="icon major fa-chain"></span>
+									<h3>Precise location</h3>
+									<p>We are able to plot precise location of tweets on the map.</p>
+								</section>
+								<section>
+									<span class="icon major fa-diamond"></span>
+									<h3>Notifications</h3>
+									<p>We provide real-time notifications to users if a tweet is severe enough, even if the user is not on the website.</p>
+								</section>
+							</div>
+							<ul class="actions">
+								<li><a href="generic.html" class="button">Learn more</a></li>
+							</ul>
+						</div>
+					</section>
+
+				<!-- Three -->
+					<section id="three" class="wrapper style1 fade-up">
+						<div class="inner">
+							<h2>Get in touch</h2>
+							<p>Have a idea? Suggestions? Want to report a bug? Contact us!</p>
+							<div class="split style1">
+								<section>
+									<form method="post" action="#">
+										<div class="fields">
+											<div class="field half">
+												<label for="name">Name</label>
+												<input type="text" name="name" id="name" />
+											</div>
+											<div class="field half">
+												<label for="email">Email</label>
+												<input type="text" name="email" id="email" />
+											</div>
+											<div class="field">
+												<label for="message">Message</label>
+												<textarea name="message" id="message" rows="5"></textarea>
+											</div>
+										</div>
+										<ul class="actions">
+											<li><a href="" class="button submit">Send Message</a></li>
+										</ul>
+									</form>
+								</section>
+								<section>
+									<ul class="contact">
+										<li>
+											<h3>Address</h3>
+											<span>123 W Lane Ave<br />
+											Columbus, Ohio, 43210<br />
+											USA</span>
+										</li>
+										<li>
+											<h3>Email</h3>
+											<a href="#">contact@email.com</a>
+										</li>
+										<li>
+											<h3>Phone</h3>
+											<span>(555) 555-5555</span>
+										</li>
+										<li>
+											<h3>Social</h3>
+											<ul class="icons">
+												<li><a href="#" class="fa-twitter"><span class="label">Twitter</span></a></li>
+												<li><a href="#" class="fa-facebook"><span class="label">Facebook</span></a></li>
+												<li><a href="#" class="fa-github"><span class="label">GitHub</span></a></li>
+												<li><a href="#" class="fa-instagram"><span class="label">Instagram</span></a></li>
+												<li><a href="#" class="fa-linkedin"><span class="label">LinkedIn</span></a></li>
+											</ul>
+										</li>
+									</ul>
+								</section>
+							</div>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper style1-alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="/public/assets/js/jquery.min.js"></script>
+			<script src="/public/assets/js/jquery.scrollex.min.js"></script>
+			<script src="/public/assets/js/jquery.scrolly.min.js"></script>
+			<script src="/public/assets/js/browser.min.js"></script>
+			<script src="/public/assets/js/breakpoints.min.js"></script>
+			<script src="/public/assets/js/util.js"></script>
+			<script src="/public/assets/js/main.js"></script>
+
+	</body>
+
+
+
+
+
+
+
     <script>
 
      
@@ -139,6 +328,22 @@
                             } else if (tweet.score < 0.20) {
                               newSize = 80;
 
+                            } else if (tweet.score < 0.25) {
+                              newSize = 70;
+                            } else if (tweet.score < 0.30) {
+                              newSize = 60;
+                            } else if (tweet.score < 0.35) {
+                              newSize = 50;
+                            } else if (tweet.score < 0.40) {
+                              newSize = 40;
+                            } else if (tweet.score < 0.45) {
+                              newSize = 30;
+                            } else {
+                              newSize = 20;
+							}
+							
+							if (tweet.score <= 0.1) {
+
 
 
                               // Let's check if the browser supports notifications
@@ -163,19 +368,8 @@
                               }
 
 
-                            } else if (tweet.score < 0.25) {
-                              newSize = 70;
-                            } else if (tweet.score < 0.30) {
-                              newSize = 60;
-                            } else if (tweet.score < 0.35) {
-                              newSize = 50;
-                            } else if (tweet.score < 0.40) {
-                              newSize = 40;
-                            } else if (tweet.score < 0.45) {
-                              newSize = 30;
-                            } else {
-                              newSize = 20;
-                            }
+
+							}
 
 
                             if (icon != null) {
@@ -183,7 +377,7 @@
                               console.log(icon);
 
                                 var infowindow = new google.maps.InfoWindow({
-                                  content: tweet.text
+                                  content: "<p style='font-size:20px;color:black;'><b style='color:black;'>" + tweet.text + "</b>" + "<br />Sentiment value: " + tweet.score.toFixed(4) + "</p>"
                               });
 
                               var marker = new google.maps.Marker({
@@ -223,5 +417,8 @@
     <script>
         
     </script>
-  </body>
+
+
+
+
 </html>

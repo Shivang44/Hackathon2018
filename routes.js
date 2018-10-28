@@ -16,6 +16,15 @@ const routes = [
             const tweetData = JSON.parse(fs.readFileSync('./data/sentimentAnalysis.json'));
             return tweetData;
         }
+    },
+    {
+        method: 'GET',
+        path: '/public/{param*}',
+        handler: {
+            directory: {
+                path: 'public'
+            }
+        }
     }
 ];
 

@@ -20,6 +20,7 @@
   "dependencies": {
     "handlebars": "^4.0.12",
     "hapi": "^17.6.0",
+    "inert": "^5.1.0",
     "twitter": "^1.7.1",
     "underscore": "^1.9.1",
     "vision": "^5.4.0"
