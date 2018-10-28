@@ -23,10 +23,92 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
 
-      // This example displays a marker at the center of Ohio.
-      // When the user clicks the marker, an info window opens.
-
+     
       function initMap() {
+
+
+
+
+
+
+
+      var icons = {
+              accident: {
+                name: 'Accident',
+                icon: {
+                  url: "https://i.imgur.com/Ct9SbMm.png", // url
+                  scaledSize: new google.maps.Size(50, 65), // scaled size
+                  origin: new google.maps.Point(0,0), // origin
+                  anchor: new google.maps.Point(0, 0), // anchor
+                },
+                keyPhrases: "accident,hit and run,crash,burn,fender bender,fire,explode,explosion".split(",")
+              },
+              crime: {
+                name: 'Crime',
+                icon: {
+                  url: "https://i.imgur.com/lWr6NlI.png", // url
+                  scaledSize: new google.maps.Size(50, 50), // scaled size
+                  origin: new google.maps.Point(0,0), // origin
+                  anchor: new google.maps.Point(0, 0), // anchor
+                },
+                keyPhrases: "shoot,shot,shots fired,shooter,shooting,stab,stabbed,stabber,stabbing,shank,shanked, assaulted,maimed,bludgeoned,raped,rapist,raping,rape,armed,knife,gun,rifle,taser,hurt, hurting,injure,injured,injury,rob,robbed,robber,robbing,burglar,burglary,jumped,mugged,mugging,mugger,kidnap,kidnapper,kidnapping,kidnapped,theft,steal,stole,stolen,strangle,strangled,strangling,beaten,impale,impaled".split(",")
+
+
+              },
+              natural_disaster: {
+                name: 'Natural Disaster',
+                icon: {
+                  url: "https://i.imgur.com/KTORyPZ.png", // url
+                  scaledSize: new google.maps.Size(50, 50), // scaled size
+                  origin: new google.maps.Point(0,0), // origindie
+                  anchor: new google.maps.Point(0, 0), // anchor
+
+                },
+                keyPhrases: "tornado,hurricane,monsoon,tsunami,earthquake,flood,hail,blizzard,storm,volcano,avalanche,twister,heat wave,cyclone,thunder,lightning,sinkhole,rain,power outage".split(",")
+              }
+            };
+
+            function getIcon(words, icons) {
+              // For each icon possibility
+
+              for (var icon in icons) {
+
+                // For each word in tweet text
+                
+                for (var i = 0; i < words.length; i++) {
+                  word = words[i].replace(/\s+/g, '-').replace(/[^a-zA-Z-]/g, '').toLowerCase();
+                  
+                  var keyPhrases = icons[icon].keyPhrases;
+                  for (var j = 0; j < keyPhrases.length; j++) {
+                    if (keyPhrases[j] == word) {
+                      console.log(keyPhrases[j], word, icons[icon].icon);
+                      return icons[icon].icon;
+                    }
+
+                  }
+                  
+                }
+
+              }
+
+
+              return null;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         var columbus = {lat: 39.9612, lng: -82.9988};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 11,
@@ -40,28 +122,36 @@
 
             .done((data) => {
 
-                console.log("Fetched data: ", data);
                 data.documents.forEach((tweet) => {
 
                     if (!pinsMapped.hasOwnProperty(tweet.id)) {
 
                         if (tweet.score < 0.5 && tweet.location != null) {
 
-                            var infowindow = new google.maps.InfoWindow({
-                                content: tweet.text
-                            });
 
-                            var marker = new google.maps.Marker({
-                                position: {lat: tweet.location[0], lng: tweet.location[1]},
-                                map: map,
-                                title: 'Tweet with low sentiment value'
-                            });
+                            var icon = getIcon(tweet.text.split(" "), icons);
+                            console.log(icon);
 
-                            marker.addListener('click', function() {
-                                infowindow.open(map, marker);
-                            });
+                            if (icon != null) {
+                                var infowindow = new google.maps.InfoWindow({
+                                  content: tweet.text
+                              });
 
-                            console.log("New marker added!", tweet);
+                              var marker = new google.maps.Marker({
+                                  position: {lat: tweet.location[0], lng: tweet.location[1]},
+                                  map: map,
+                                  title: 'Tweet with low sentiment value',
+                                  icon: icon,
+
+                              });
+
+                              marker.addListener('click', function() {
+                                  infowindow.open(map, marker);
+                              });
+                            }
+
+                            
+
                         }
                     }
 
