@@ -29,26 +29,45 @@ let response_handler = function (response) {
     });
     response.on ('end', function () {
         let body_ = JSON.parse (body);
+        console.log("this is what microsoft sent back.", body_);
 
         // Add tweet text and location to sentiment analysis
         const tweets = JSON.parse(fs.readFileSync('./data/tweets.json'));
+
+        // For each sentiment analysis, associate it with the correct id in tweets data
         for (var i = 0; i < body_.documents.length; i++) {
-            body_.documents[i]['text'] = tweets[i].text;
-            body_.documents[i]['location'] = tweets[i].location;
+            var id = body_.documents[i].id;
+
+            tweets.forEach((tweet) => {
+                if (tweet.id == id) {
+                    body_.documents[i].text = tweet.text;
+                    body_.documents[i].location = tweet.location;
+                }
+            });
+
+            // body_.documents[i]['text'] = tweets[i].text;
+            // body_.documents[i]['location'] = tweets[i].location;
         }
 
-        var prevAnalysis;
-        try{
-            prevAnalysis = JSON.parse(fs.readFileSync('/data/sentimentAnalysis.json'));
-        } catch(Error){
-            let body__ = JSON.stringify (body_, null, '  ');
-            fs.writeFileSync('./data/sentimentAnalysis.json', body__);
-        }
-        if(prevAnalysis!==undefined){
-            body_.documents.forEach((val)=>{
-                prevAnalysis.documents.push(val);
+        if (!fs.existsSync('./data/sentimentAnalysis.json')) {
+            // Initial case. No sentiment analysis file yet. Write response to file.
+            fs.writeFileSync('./data/sentimentAnalysis.json', JSON.stringify(body_)); // null, ' '
+            console.log("No sentiment analysis file yet. Wrote to file.");
+        } else {
+            // File exists. Read it, add to it, write it back.
+            var prevAnalysis = JSON.parse(fs.readFileSync('./data/sentimentAnalysis.json'));
+
+           // console.log("Previous analysis was", prevAnalysis);
+
+            body_.documents.forEach((tweet)=>{
+                prevAnalysis.documents.push(tweet);
             });
-            fs.writeFileSync('./data/sentimentAnalysis.json', body_);
+
+           // console.log("new analysis is", body_);
+
+            fs.writeFileSync('./data/sentimentAnalysis.json', JSON.stringify(prevAnalysis));
+
+            console.log("Sentiment analysis file exists. Added to it and wrote back to file.");
         }
        
     });
@@ -58,6 +77,7 @@ let response_handler = function (response) {
 };
 
 let get_sentiments = function (documents) {
+    console.log("These are the new tweets we are sending to analyze to microsoft.", documents);
     let body = JSON.stringify (documents);
 
     let request_params = {
@@ -79,18 +99,18 @@ const getTweetData = function() {
     const tweets = JSON.parse(fs.readFileSync('./data/tweets.json'));
     let documents = {'documents': []};
 
-    console.log(tweets);
     var counter=0;
     tweets.forEach((tweet, index) => {
         if(tweet.hasBeenAnalyzed == undefined || !tweet.hasBeenAnalyzed){
             documents['documents'].push({
-                'id': index,
+                'id': tweet.id,
                 'language': 'en',
                 'text': tweet.text
             });
             counter++;
         }
     });
+
 
     console.log(counter+" tweets analyzed");
     return documents;

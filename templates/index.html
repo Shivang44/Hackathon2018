@@ -42,10 +42,10 @@
 
                 console.log("Fetched data: ", data);
                 data.documents.forEach((tweet) => {
-                    
+
                     if (!pinsMapped.hasOwnProperty(tweet.id)) {
 
-                        if (tweet.score < 0.5) {
+                        if (tweet.score < 0.5 && tweet.location != null) {
 
                             var infowindow = new google.maps.InfoWindow({
                                 content: tweet.text
