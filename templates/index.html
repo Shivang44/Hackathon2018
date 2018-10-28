@@ -41,7 +41,7 @@
                   origin: new google.maps.Point(0,0), // origin
                   anchor: new google.maps.Point(0, 0), // anchor
                 },
-                keyPhrases: "accident,hit and run,crash,burn,fender bender,fire,explode,explosion".split(",")
+                keyPhrases: "accident,hit and run,crash,crashed,burn,burnt,burned,fender bender,fire,explode,exploded,explosion".split(",")
               },
               crime: {
                 name: 'Crime',
@@ -126,13 +126,37 @@
 
                     if (!pinsMapped.hasOwnProperty(tweet.id)) {
 
-                        if (tweet.score < 0.5 && tweet.location != null) {
+                        if (tweet.score <= 0.5 && tweet.location != null) {
 
 
                             var icon = getIcon(tweet.text.split(" "), icons);
-                            console.log(icon);
+
+                            var newSize;
+                            if (tweet.score <= 0.05) {
+                              newSize = 100;
+                            } else if (tweet.score < 0.1) {
+                              newSize = 90;
+                            } else if (tweet.score < 0.20) {
+                              newSize = 80;
+                            } else if (tweet.score < 0.25) {
+                              newSize = 70;
+                            } else if (tweet.score < 0.30) {
+                              newSize = 60;
+                            } else if (tweet.score < 0.35) {
+                              newSize = 50;
+                            } else if (tweet.score < 0.40) {
+                              newSize = 40;
+                            } else if (tweet.score < 0.45) {
+                              newSize = 30;
+                            } else {
+                              newSize = 20;
+                            }
+
 
                             if (icon != null) {
+                              icon.scaledSize = new google.maps.Size(newSize, newSize);
+                              console.log(icon);
+
                                 var infowindow = new google.maps.InfoWindow({
                                   content: tweet.text
                               });
