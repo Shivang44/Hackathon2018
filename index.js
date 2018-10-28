@@ -5,7 +5,7 @@ const tweetFetcher = require('./fetchTweets.js');
 //const tweetAnalyzer = require('./tweetAnalyzer.js');
 
 const server = Hapi.server({
-    port: 3000,
+    port: process.env.PORT || 3000,
     host: 'localhost'
 });
 
